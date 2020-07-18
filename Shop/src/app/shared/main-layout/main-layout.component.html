@@ -1,2 +1,18 @@
-<p>main-layout works!</p>
+<nav class="navbar bg-dark">
+    <h2>YARD SHOP</h2>
+    <ul>
+        <li routerLinkActive="active">
+            <a href="#">CHAINSAWS</a>
+        </li>
+        <li routerLinkActive="active">
+            <a href="#">TRIMMERS</a>
+        </li>
+        <li routerLinkActive="active">
+            <a href="#">SNOW BLOWERS</a>
+        </li>
+        <li routerLinkActive="active">
+            <a [routerLink]="['/cart']">CART</a>
+        </li>
+    </ul>
+</nav>
 <router-outlet></router-outlet>

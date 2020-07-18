@@ -14,7 +14,8 @@ const routes: Routes = [
       { path: 'product/:id', component: ProductPageComponent },
       { path: 'cart', component: CartPageComponent }
     ]
-  }
+  },
+  { path: 'admin', loadChildren: './admin/admin.module#AdminModule' }
 ];
 
 @NgModule({
