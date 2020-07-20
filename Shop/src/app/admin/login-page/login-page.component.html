@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
 
     <h2>Login as administrator</h2>
-
+    <br>
     <div class="form-control">
         <label for="email">Email</label>
         <input id="email" type="email" formControlName="email">
@@ -22,8 +22,8 @@
             </small>
         </div>
     </div>
-
-    <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid || submitted">Logon</button>
+    <br>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid || submitted">Logon</button>
 
 
 </form>
