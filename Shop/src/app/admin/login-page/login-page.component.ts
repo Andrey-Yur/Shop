@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/auth.service';
 import { from } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,7 +15,8 @@ export class LoginPageComponent implements OnInit {
   submitted = false
 
   constructor(
-    public auth: AuthService
+    public auth: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -29,12 +31,17 @@ export class LoginPageComponent implements OnInit {
     }
     this.submitted = true;
 
-    const user = {
+    const user = {                 //собирает поля формы
       email: this.form.value.email,
       password: this.form.value.password
     }
     this.auth.login(user).subscribe(res => {
-      console.log(res)
+      //console.log(res)
+      this.form.reset
+      this.router.navigate(['/admin', 'dashboard'])
+      this.submitted = false
+    }, () => {
+      this.submitted = false
     })
 
 

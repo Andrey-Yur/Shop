@@ -9,6 +9,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
   login(User) {
-    return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${environment.apiKey}`, User)
+    return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, User)
   }
 }
