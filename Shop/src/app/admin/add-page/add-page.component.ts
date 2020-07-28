@@ -37,7 +37,7 @@ export class AddPageComponent implements OnInit {
 
     const product = {
       type: this.form.value.type,
-      title: this.form.value.type,
+      title: this.form.value.title,
       photo: this.form.value.photo,
       info: this.form.value.info,
       price: this.form.value.price,
