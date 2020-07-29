@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
-import { FbResponse } from './interfaces';
+import { FbResponse, Product } from './interfaces';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -16,10 +16,11 @@ export class ProductService {
         return {
           ...product,
           id: res.name,
-          data: new Date(product.date)
+          date: new Date(product.date)
         }
       }))
   }
+
   getAll() {
     return this.http.get(`${environment.fbDbUrl}/products.json`)
       .pipe(map(res => {
@@ -27,8 +28,20 @@ export class ProductService {
           .map(key => ({
             ...res[key],
             id: key,
-            data: new Date(res[key].data)
+            date: new Date(res[key].date)
           }))
       }))
   }
+
+  getById(id) {
+    return this.http.get(`${environment.fbDbUrl}/products/${id}.json`)
+      .pipe(map((res: Product) => {
+        return {
+          ...res,
+          id,
+          date: new Date(res.date)
+        }
+      }))
+  }
+
 }
