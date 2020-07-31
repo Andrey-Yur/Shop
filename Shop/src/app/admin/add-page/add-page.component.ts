@@ -41,7 +41,7 @@ export class AddPageComponent implements OnInit {
       photo: this.form.value.photo,
       info: this.form.value.info,
       price: this.form.value.price,
-      data: new Date()
+      date: new Date()
     }
     console.log(this.form);
     this.productServ.create(product).subscribe(res => {
