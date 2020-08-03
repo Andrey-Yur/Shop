@@ -9,6 +9,8 @@ import { map } from 'rxjs/operators';
 })
 export class ProductService {
 
+  type = 'trimmer'
+
   constructor(private http: HttpClient) { }
   create(product) {
     return this.http.post(`${environment.fbDbUrl}/products.json`, product)
@@ -52,4 +54,7 @@ export class ProductService {
     return this.http.patch(`${environment.fbDbUrl}/products/${product.id}.json`, product);
   }
 
+  setType(type) {
+    this.type = type
+  }
 }
