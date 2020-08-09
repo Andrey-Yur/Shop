@@ -58,7 +58,7 @@ export class CartPageComponent implements OnInit {
       this.submitted = false;
     })
   }
-
+  // удаление заказа(описание и цены)
   delete(product) {
     this.totalPrice -= parseFloat(product.price);
     this.cartProducts.splice(this.cartProducts.indexOf(product), 1);
