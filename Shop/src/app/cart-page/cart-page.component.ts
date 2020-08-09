@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../shared/product.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrderService } from '../shared/order.service'
-import { from } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -29,7 +28,7 @@ export class CartPageComponent implements OnInit {
     this.cartProducts = this.productServ.cartProducts
     for (let i = 0; i < this.cartProducts.length; i++) {
       this.totalPrice += parseFloat(this.cartProducts[i].price)
-      // console.log(this.totalPrice)
+
     }
 
     this.form = new FormGroup({
@@ -55,7 +54,7 @@ export class CartPageComponent implements OnInit {
       price: this.totalPrice,
       date: new Date()
     }
-    // console.log(this.form);
+
     this.orderServ.create(order).subscribe(res => { // сервис создания заказа и сброса формы
       this.form.reset();
       this.added = 'Delivery is framed';
