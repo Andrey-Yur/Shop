@@ -8,6 +8,7 @@
                 <th>Phone</th>
                 <th>Name </th>
                 <th>Address</th>
+                <th>Produts</th>
                 <th>Price</th>
                 <th>Status</th>
             </tr>
@@ -18,7 +19,13 @@
                 <td>{{order.phone}}</td>
                 <td>{{order.name}}</td>
                 <td>{{order.address}}</td>
-                <td>{{order.price.toFixed(2)}}</td>
+                <td>
+                    <div *ngFor="let product of order.orders">{{product.title}}</div>
+                </td>
+                <td>
+                    <div class="text-center">{{order.price.toFixed(2)}}$</div>
+                    <div class="text-center">{{order.payment}}</div>
+                </td>
                 <td><button class="btn btn-danger" (click)="remove(order.id)">Complited</button></td>
             </tr>
         </tbody>

@@ -3,6 +3,7 @@ import { ProductService } from '../shared/product.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrderService } from '../shared/order.service'
 import { from } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart-page',
@@ -15,10 +16,12 @@ export class CartPageComponent implements OnInit {
   totalPrice = 0
   form: FormGroup
   submitted = false
+  added = ''
 
   constructor(
     private productServ: ProductService,
-    private orderServ: OrderService
+    private orderServ: OrderService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -55,7 +58,10 @@ export class CartPageComponent implements OnInit {
     // console.log(this.form);
     this.orderServ.create(order).subscribe(res => { // сервис создания заказа и сброса формы
       this.form.reset();
+      this.added = 'Delivery is framed';
       this.submitted = false;
+      setTimeout(() => { this.router.navigate(['/']); }, 2000);
+
     })
   }
   // удаление заказа(описание и цены)
