@@ -1,0 +1,103 @@
+<h1> Hello Angular Word!</h1>
+
+<p>{{title}}</p>
+<p>{{number - 2}}</p>
+<p>{{arr}}</p>
+<p>{{obj.b.c}}</p> 
+<p>{{"Привет Вася!"}}</p>
+
+<!-- [] Пример одностороннего связывания из .ts в .html -->
+<img [src]="img" alt="">  
+<br>
+<button (click)="onClick()">Click me!</button>
+
+<!-- ()  Пример одностороннего связывания из .html в .ts -->
+<input type="text" (keyup.enter)="onInput($event)" (blur)="onBlur(myInput.value)" #myInput>
+<p><strong>{{inputValue}}</strong></p>
+
+<hr>
+<app-post></app-post>
+<!-- <app-post></app-post> -->
+<hr>
+<app-post4></app-post4>
+
+<hr>
+<!-- Пример двустороннего связывания -->
+<input type="text" [value]="title2" (input)="onInput2($event)">
+<p>{{title2}}</p>
+<hr>
+<!-- Пример двустороннего связывания с использованием ngModel 
+*НУЖЕН импорт FormsModule в app.module!!!-->
+<input type="text" [(ngModel)]="title3">
+<p>{{title3}}</p>
+
+<!-- Работа с дерективой ngStyle -->
+<button (click)="backgroundToggle=!backgroundToggle">Toggle</button>
+<div [ngStyle]="{
+   width: '200px',
+   height:'200px',
+   borderRadius: '5px',
+   border:'1px solid #ccc',
+   background: backgroundToggle ? 'red' : 'green' 
+   }">
+
+</div>
+<!-- Работа сo Style -->
+<p [ngClass]="{red: backgroundToggle,
+blue: !backgroundToggle}"
+>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime architecto hic blanditiis. 
+Minima velit ipsa nulla nihil. Praesentium temporibus obcaecati minus sint repudiandae
+in molestias, tempore excepturi odio voluptatibus nemo!</p>
+
+<p [class.blue]="!backgroundToggle"
+   [class.red]="backgroundToggle"
+>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
+<!-- ngIf -->
+<button (click)="toggle = !toggle">Toggle</button>
+<!-- <button (click)="toggle = 111">Set 111</button> -->
+
+<p *ngIf="toggle; else blueP" class="red">Class RED</p>
+<ng-template #blueP>
+   <p class="blue">Class BLUE</p>
+</ng-template>
+
+<!-- ngSwitch -->
+<div  [ngSwitch]="toggle">
+   <p *ngSwitchCase="true" class="red">SWITCH true</p>
+   <p *ngSwitchCase="false" class="blue">SWITCH false</p>
+   <p *ngSwitchDefault>SWITCH default</p>
+
+</div>
+
+<!-- ngFor -->
+<ul>
+   <li *ngFor="let item of arr2; let idx = index">
+     {{idx}} <strong>{{item}}</strong>
+   </li>
+</ul>
+
+<hr>
+<!-- вывод сложного объекта -->
+<ul style="list-style: none;">
+<li *ngFor="let post of obj2">
+<p>{{post.title}} <b>{{post.author}}</b></p>
+<ul>
+   <li *ngFor="let comment of post.comments">
+<div>
+   <small>{{comment.name}}</small>
+   <p>{{comment.text}}</p>
+</div>
+</ul>
+</li>
+</ul>
+
+<hr>
+<!-- общие сведения о pipe -->
+<p>
+   {{now | date: 'long' | uppercase}}
+</p>
+
+
+
+

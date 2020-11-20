@@ -1,0 +1,17 @@
+<form class="card" [formGroup]="form">
+  <h2>Enter to Information Panel</h2>
+  <div class="form-control">
+    <label for="tel">Mobile phone:</label>
+    <input
+      formControlName="tel"
+      type="text"
+      id="tel"
+      name="tel"
+      maxlength="14"
+      [value]="inputVal | casttel"
+      (input)="onInput($event)"
+    />
+    <div class="validation"></div>
+  </div>
+  <p>{{ inputVal.length }}</p>
+</form>

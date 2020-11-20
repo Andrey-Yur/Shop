@@ -1,0 +1,60 @@
+<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+  <h2>Enter to Administration Panel</h2>
+  <div class="alert alert-danger" *ngIf="auth.error$ | async as error">
+    {{ error }}
+  </div>
+  <div class="alert alert-info" *ngIf="message">
+    {{ message }}
+  </div>
+  <div
+    class="form-control"
+    [ngClass]="{
+      invalid: form.get('email').touched && form.get('email').invalid
+    }"
+  >
+    <label for="email">Email:</label>
+    <input id="email" type="email" formControlName="email" />
+    <div
+      *ngIf="form.get('email').touched && form.get('email').invalid"
+      class="validation"
+    >
+      <small *ngIf="form.get('email').errors.required">Enter email</small>
+      <small *ngIf="form.get('email').errors.email">Enter valid email</small>
+    </div>
+  </div>
+  <div
+    class="form-control"
+    [ngClass]="{
+      invalid: form.get('password').touched && form.get('password').invalid
+    }"
+  >
+    <label for="password">Password:</label>
+    <input id="password" type="password" formControlName="password" />
+    <div
+      *ngIf="form.get('password').touched && form.get('password').invalid"
+      class="validation"
+    >
+      <small *ngIf="form.get('password').errors.required"
+        >Enter your password</small
+      >
+      <small
+        *ngIf="form.get('password').errors.minlength"
+        [ngPlural]="form.get('password').errors.minlength.actualLength"
+        >Password must be minimum
+        {{ form.get("password").errors.minlength.requiredLength }} chars. You
+        have entered {{ form.get("password").errors.minlength.actualLength }}
+
+        <ng-template ngPluralCase="=1">char</ng-template>
+        <ng-template ngPluralCase="other">chars</ng-template>
+        .</small
+      >
+    </div>
+  </div>
+  <button
+    type="submit"
+    class="btn btn-dark"
+    [disabled]="form.invalid || submitted"
+  >
+    LOGIN
+  </button>
+</form>
