@@ -1,17 +1,59 @@
-<form class="card" [formGroup]="form">
-  <h2>Enter to Information Panel</h2>
+<form class="card" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2>ENTER TO INFORMATION PANEL</h2>
   <div class="form-control">
     <label for="tel">Mobile phone:</label>
     <input
       formControlName="tel"
       type="text"
       id="tel"
-      name="tel"
       maxlength="14"
       [value]="inputVal | casttel"
       (input)="onInput($event)"
     />
     <div class="validation"></div>
+
+    <div
+      *ngIf="
+        (form.get('tel').touched && form.get('tel').invalid) ||
+        (res && form.get('tel').invalid)
+      "
+      class="validation"
+    >
+      <small *ngIf="form.get('tel').errors.required"
+        >Enter your mobail phone</small
+      >
+      <small
+        *ngIf="form.get('tel').errors.minlength"
+        [ngPlural]="form.get('tel').errors.minlength.actualLength"
+        >Phone number must be
+        {{ form.get("tel").errors.minlength.requiredLength - 4 }}
+
+        <ng-template ngPluralCase="=1">digit</ng-template>
+        <ng-template ngPluralCase="other">digits</ng-template>
+        .</small
+      >
+    </div>
   </div>
-  <p>{{ inputVal.length }}</p>
+
+  <div id="recaptcha-container"></div>
+  <div *ngIf="phoneSignIn">
+    <label for="otp">Verification number:</label>
+    <input
+      type="text"
+      name="otp"
+      formControlName="otp"
+      maxlength="6"
+      class="form-control"
+    />
+
+    <button type="submit" class="btn btn-dark" (click)="verifyOtp()">
+      VERIFY
+    </button>
+
+    <button class="btn btn-primary" (click)="cancelPhoneSignIn()">
+      CANCEL
+    </button>
+  </div>
 </form>
+<!-- <p>{{ otp.value }}</p> -->
+<p>{{ castPh }}</p>

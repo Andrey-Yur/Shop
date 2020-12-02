@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "yard-service-ca": {
+      "hosting": {
+        "yard-service": [
+          "yard-service-ca"
+        ]
+      }
+    }
+  }
+}
