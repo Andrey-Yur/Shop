@@ -5,46 +5,47 @@ import { FbResponse, Product } from './interfaces';
 import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
+  type = 'trimmer';
+  cartProducts: Product[] = [];
 
-  type = 'trimmer'
-  cartProducts: Product[] = []
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   create(product) {
-    return this.http.post(`${environment.fbDbUrl}/products.json`, product)
-      .pipe(map((res: FbResponse) => {
+    return this.http.post(`${environment.fbDbUrl}/products.json`, product).pipe(
+      map((res: FbResponse) => {
         return {
           ...product,
           id: res.name,
-          date: new Date(product.date)
-        }
-      }))
+          date: new Date(product.date),
+        };
+      })
+    );
   }
 
   getAll() {
-    return this.http.get(`${environment.fbDbUrl}/products.json`)
-      .pipe(map(res => {
-        return Object.keys(res)
-          .map(key => ({
-            ...res[key],
-            id: key,
-            date: new Date(res[key].date)
-          }))
-      }))
+    return this.http.get(`${environment.fbDbUrl}/products.json`).pipe(
+      map((res) => {
+        return Object.keys(res).map((key) => ({
+          ...res[key],
+          id: key,
+          date: new Date(res[key].date),
+        }));
+      })
+    );
   }
 
   getById(id) {
-    return this.http.get(`${environment.fbDbUrl}/products/${id}.json`)
-      .pipe(map((res: Product) => {
+    return this.http.get(`${environment.fbDbUrl}/products/${id}.json`).pipe(
+      map((res: Product) => {
         return {
           ...res,
           id,
-          date: new Date(res.date)
-        }
-      }))
+          date: new Date(res.date),
+        };
+      })
+    );
   }
 
   remove(id) {
@@ -52,15 +53,17 @@ export class ProductService {
   }
 
   update(product: Product) {
-    return this.http.patch(`${environment.fbDbUrl}/products/${product.id}.json`, product);
+    return this.http.patch(
+      `${environment.fbDbUrl}/products/${product.id}.json`,
+      product
+    );
   }
 
   setType(type) {
-    this.type = type
+    this.type = type;
   }
 
   addProduct(product) {
-    this.cartProducts.push(product)
+    this.cartProducts.push(product);
   }
-
 }

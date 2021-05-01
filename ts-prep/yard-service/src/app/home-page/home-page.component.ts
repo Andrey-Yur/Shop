@@ -1,27 +1,23 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
 import {
-  FormControl,
-  FormGroup,
-  Validators,
-  FormBuilder,
-} from '@angular/forms';
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {
-  AsYouType,
-  E164Number,
-  ParseError,
-  parsePhoneNumber,
-  parsePhoneNumberWithError,
-  PhoneNumber,
-} from 'libphonenumber-js';
-import examples from 'libphonenumber-js/examples.mobile.json';
+import { E164Number, parsePhoneNumber } from 'libphonenumber-js';
 import { WindowService } from '../admin/shared/services/window.service';
 import firebase from 'firebase/app';
 
 import 'firebase/firestore';
 import 'firebase/auth';
-import { auth } from 'firebaseui';
-import { getNumberOfCurrencyDigits } from '@angular/common';
+import { Observable } from 'rxjs';
+
+import { fromEvent, Subscription } from 'rxjs';
+import { MyValidators } from '../my.validators';
+import { AuthService } from '../admin/shared/services/auth.service';
 
 @Component({
   selector: 'app-home-page',
@@ -29,25 +25,33 @@ import { getNumberOfCurrencyDigits } from '@angular/common';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit, AfterViewInit {
+  @ViewChild('capt', { static: false }) captсhaRef: ElementRef;
+
+  subscription: Subscription[] = [];
   form: FormGroup;
   inputVal = '';
+  inputVal1 = '';
 
-  phoneNumber = '+19638527410';
+  // phoneNumber = '+19638527410';
+  phoneNumber: E164Number;
   windowRef: any;
   recaptchaVerifier: firebase.auth.RecaptchaVerifier;
   verificationCode: string;
   user: any;
   phoneSignIn = false;
-  //otpSend: string;
-  recaptcha: any[];
   castPh: E164Number;
   res = false;
+  response: string;
 
   get otp(): any {
     return this.form.get('otp');
   }
-  constructor(private router: Router, private windowService: WindowService) {
-    this.windowRef = this.windowService.windowRef;
+  constructor(
+    private router: Router,
+    private win: WindowService,
+    private auth: AuthService
+  ) {
+    this.windowRef = this.win.windowRef;
   }
 
   ngOnInit(): void {
@@ -55,6 +59,7 @@ export class HomePageComponent implements OnInit, AfterViewInit {
       tel: new FormControl(null, [
         Validators.required,
         Validators.minLength(14),
+        // MyValidators.restrictedPhones,
       ]),
       // otpSend: new FormGroup({
       otp: new FormControl(null, [
@@ -62,83 +67,75 @@ export class HomePageComponent implements OnInit, AfterViewInit {
         Validators.minLength(6),
         Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$'),
       ]),
-      // }),
     });
   }
+
   ngAfterViewInit() {
     this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'recaptcha-container',
       {
         size: 'normal',
-
-        callback: (response) => {
+        callback: (response: firebase.auth.RecaptchaVerifier) => {
+          console.log('Есть ответ res будет true:', response);
           this.res = true;
-          console.log(response);
-          if (this.form.get('tel').valid) {
-            this.phoneSignIn = true;
-          }
-          //   console.log(this.form.status);
-          // return this.form.status;
-          // this.phoneSignIn = true;
-          // this.phoneNumber = this.castPh.toString();
-
-          // console.log('No err');
         },
         'expired-callback': () => {
-          this.phoneSignIn = false;
-          // Response expired. Ask user to solve reCAPTCHA again.
+          this.res = false;
+          //  recaptcha.reset(this.windowRef.recaptchaWidgetId);
         },
+        // Response expired. Ask user to solve reCAPTCHA again.
       }
     );
     this.windowRef.recaptchaVerifier.render();
   }
 
   verifyOtp() {
-    //this.otp = this.form.get('otp').value;
-    console.log(this.otp);
-    this.windowRef.confirmationResult
-      .confirm(this.otp)
-      .then((userCredentials) => {
-        console.log(userCredentials);
-        this.user = userCredentials.user;
-      })
-      .catch((error) => console.log(error, 'iccorrect code'));
+    if (this.form.get('otp').valid) {
+      console.log(this.otp.value);
+      this.windowRef.confirmationResult
+        .confirm(this.otp.value)
+        .then((userCredentials) => {
+          console.log(userCredentials);
+          this.user = userCredentials.user;
+        })
+        .catch((error) => console.log(error, 'incorrect code'));
+    }
   }
-  onSubmit() {}
 
   reset() {}
 
   onInput(event: any) {
     this.inputVal = event.target.value;
+    // this.inputVal1 = event.target.classList.for;
 
-    try {
-      this.castPh = parsePhoneNumber(this.inputVal, 'CA').number;
-    } catch (error) {
-      console.log(error.message);
+    // console.log(event);
+    if (this.form.get('tel').valid && this.res) {
+      const appVerifier = this.windowRef.recaptchaVerifier;
+      this.phoneNumber = parsePhoneNumber(this.inputVal, 'CA').number;
+      firebase
+        .auth()
+        .signInWithPhoneNumber(this.phoneNumber.toString(), appVerifier)
+        .then((result) => {
+          this.windowRef.confirmationResult = result;
+        })
+        .catch((error) => console.log(error));
     }
   }
-
-  cancelPhoneSignIn() {
-    this.phoneSignIn = false;
-    //this.windowRef.recaptchaVerifier.;
+  onSub() {
+    this.auth.checkUsr().subscribe(() => {
+      // console.log(this.res);
+    });
+    // if (this.form.get('otp').valid && this.res) {
+    //   const appVerifier = this.windowRef.recaptchaVerifier;
+    //   console.log('Recaptcha Verifier1:', appVerifier);
+    //   this.phoneNumber = parsePhoneNumber(this.inputVal, 'CA').number;
+    //   firebase
+    //     .auth()
+    //     .signInWithPhoneNumber(this.phoneNumber.toString(), appVerifier)
+    //     .then((confirmationResult) => {
+    //       this.windowRef.confirmationResult = confirmationResult;
+    //     })
+    //     .catch((error) => console.log(error));
+    // }
   }
 }
-// if (this.form.get('tel').valid) {
-//   firebase
-//     .auth()
-//     .signInWithPhoneNumber(
-//       this.phoneNumber,
-//       this.windowRef.recaptchaVerifier
-//     )
-//     .then((confirmationResult) => {
-//       //   this.phoneSignIn = true;
-//       this.windowRef.confirmationResult = confirmationResult;
-//       console.log(confirmationResult, 'CResult');
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       this.windowRef.recaptchaVerifier.clear();
-//     });
-//   // reCAPTCHA solved, allow signInWithPhoneNumber.
-//   // ...
-// }

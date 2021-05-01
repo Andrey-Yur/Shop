@@ -1,0 +1,28 @@
+<app-header [title]="myTitle"></app-header>
+<app-side-menu (setSideNavControl)="setSideNav($event)">
+<ng-template #contentTemplate>
+<!--  <mat-form-field appearance="legacy">-->
+<!--    <mat-label>Search by products...</mat-label>-->
+<!--    <input matInput placeholder="Search" #searchField (input)="search(searchField.value)">-->
+
+<!--    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
+<!--    </mat-form-field>-->
+<!--  <mat-checkbox class="example-margin" (change)="toggleOnlyFavorites($event)" >Show-->
+<!--  only favorites</mat-checkbox>-->
+<!--  <mat-grid-list cols="4" rowHeight="500" *ngIf="products$ | async as products; else loader">-->
+<!--  <mat-grid-tile *ngFor="let product of products| productsFilter: searchText: onlyFavorites; index as myIndex; odd as isOdd">-->
+<!--&lt;!&ndash;    {{myIndex+1}} - {{product.ip_address}}&ndash;&gt;-->
+<!--<app-product-card [product]="product" [isOdd]="isOdd"></app-product-card>-->
+<!--  </mat-grid-tile>-->
+<!--  </mat-grid-list>-->
+<!--  <pre>{{products$ | async | json}}</pre>-->
+</ng-template>
+<router-outlet></router-outlet>
+  </app-side-menu>
+
+
+
+<!--<img [src]="imageSrc" [style.width.%]="imageWidth" (click)="clickOnImage(div, $event)" >-->
+<!--<div [innerHTML]="content" #div></div>-->
+<!--<input type="text" (input)="search(inputElement.value)" #inputElement>-->
+<!--<div>{{text}}</div>-->

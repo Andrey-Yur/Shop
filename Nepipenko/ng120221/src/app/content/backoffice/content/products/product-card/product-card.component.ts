@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 
 import {IProduct} from '../products.service';
-import {ModalService} from '../../../modal/modal.service';
+import {ModalService} from '../../../../../modal/modal.service';
 
 @Component({
   selector: 'app-product-card',

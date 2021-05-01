@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
 import {Route, RouterModule} from '@angular/router';
-import {SignupComponent} from './signup.component';
+import {BackofficeComponent} from './backoffice.component';
 
 
 const routes: Route[] = [
-      {path: '', component: SignupComponent}
+    {
+        path: '', component: BackofficeComponent,
+        children: [
+            {path: '', loadChildren: () => import('./content/products/products.module').then(mod => mod.ProductsModule)}
+            ]
+    },
     ];
 @NgModule({
   declarations: [],
@@ -13,4 +18,4 @@ const routes: Route[] = [
   ],
   exports: [RouterModule],
 })
-export class SignupRoutingModule { }
+export class BackofficeRoutingModule { }

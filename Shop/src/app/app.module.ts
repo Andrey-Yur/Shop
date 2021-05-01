@@ -15,8 +15,7 @@ import { SortingPipe } from './shared/sorting.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-
-
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,7 @@ import { environment } from '../environments/environment';
     ProductPageComponent,
     CartPageComponent,
     ProductComponent,
-    SortingPipe
+    SortingPipe,
   ],
   imports: [
     BrowserModule,
@@ -35,13 +34,18 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     HttpClientModule,
     QuillModule.forRoot(),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    MatBadgeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    multi: true,
-    useClass: AuthInterceptor
-  }],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi: true,
+      useClass: AuthInterceptor,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -2,24 +2,28 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(User) {
-    return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, User)
-      .pipe(
-        tap(this.setToken)
+    return this.http
+      .post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
+        User
       )
+      .pipe(tap(this.setToken));
   }
 
   private setToken(response) {
     if (response) {
-      const expData = new Date(new Date().getTime() + response.expiresIn * 1000);
+      const expData = new Date(
+        new Date().getTime() + response.expiresIn * 1000
+      );
       localStorage.setItem('fbTokenExp', expData.toString());
       localStorage.setItem('fbToken', response.idToken);
     } else {
@@ -29,7 +33,7 @@ export class AuthService {
 
   get token() {
     const expData = new Date(localStorage.getItem('fbTokenExp'));
-    if (new Date > expData) {
+    if (new Date() > expData) {
       this.logout();
       return null;
     }
@@ -37,11 +41,10 @@ export class AuthService {
   }
 
   logout() {
-    this.setToken(null)
+    this.setToken(null);
   }
 
   isAuthenticated() {
-    return !!this.token
+    return !!this.token;
   }
-
 }

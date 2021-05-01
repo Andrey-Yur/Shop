@@ -1,34 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Product } from '../interfaces';
 import { ProductService } from '../product.service';
 
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
-  styleUrls: ['./main-layout.component.scss']
+  styleUrls: ['./main-layout.component.scss'],
 })
 export class MainLayoutComponent implements OnInit {
+  cartProducts = [];
+  type = 'chainsaw';
 
-  type = 'chainsaw'
-
-  constructor(
-    private router: Router,
-    private productServ: ProductService
-  ) { }
+  constructor(private router: Router, private productServ: ProductService) {}
 
   ngOnInit(): void {
+    this.cartProducts = this.productServ.cartProducts;
   }
 
   setType(type) {
-    this.type = type
-    if (this.type !== 'Cart') {
+    this.type = type;
+    if (this.type !== 'cart') {
       this.router.navigate(['/'], {
         queryParams: {
-          type: this.type
-        }
-      })
-      this.productServ.setType(this.type)
+          type: this.type,
+        },
+      });
+      this.productServ.setType(this.type);
+    } else {
+      this.router.navigate(['/cart']);
     }
   }
 }

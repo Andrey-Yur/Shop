@@ -12,7 +12,7 @@ export class AuthService1 {
       .signInWithPhoneNumber(phoneNumber, applicationVerifier)
       .then((res) => {
         this.isLoggetIn = true;
-        localStorage.ssetItem('mobPhone', JSON.stringify(res.verificationId));
+        localStorage.setItem('mobPhone', JSON.stringify(res.verificationId));
       });
   }
 
@@ -29,4 +29,6 @@ export class AuthService1 {
     this.firebaseAuth.signOut();
     localStorage.removeItem('mobPhone');
   }
+
+  checkUs() {}
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FbAuthResponse, User } from 'src/app/shared/components/interfaces';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 
@@ -22,6 +22,7 @@ export class AuthService {
   }
 
   login(user: User): Observable<any> {
+    user.returnSecureToken = true;
     return this.http
       .post(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
@@ -33,6 +34,7 @@ export class AuthService {
 
   logout() {
     this.setToken(null);
+    localStorage.clear();
   }
 
   isAuthenticated(): boolean {
@@ -54,8 +56,9 @@ export class AuthService {
     }
     return throwError(error);
   }
+
   private setToken(response: FbAuthResponse | null) {
-    //console.log(response);
+    // console.log(response.registered);
     if (response) {
       const expDate = new Date(
         new Date().getTime() + +response.expiresIn * 1000
@@ -65,5 +68,28 @@ export class AuthService {
     } else {
       localStorage.clear();
     }
+  }
+
+  private isReg(response: FbAuthResponse | null) {
+    // if (response) {
+    //   const regYes = response.registered;
+    //   console.log(regYes);
+    //   return regYes;
+    // }
+    console.log(response);
+  }
+
+  checkUsr(numTel: string = ''): Observable<any> {
+    // console.log('PPPS');
+    const user: User = {
+      email: 'user@user.ca',
+      password: '',
+    };
+    return this.http
+      .post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${environment.apiKey}`,
+        { idToken: this.token }
+      )
+      .pipe(tap(this.isReg));
   }
 }

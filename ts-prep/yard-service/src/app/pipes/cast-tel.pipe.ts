@@ -5,7 +5,6 @@ import { AsYouType } from 'libphonenumber-js';
 })
 export class CastTelPipe implements PipeTransform {
   transform(value: string, output: string): string {
-    output = new AsYouType('CA').input(value);
-    return output;
+    return (output = new AsYouType('CA').input(value));
   }
 }

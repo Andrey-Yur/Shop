@@ -14,10 +14,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CastTelPipe } from './pipes/cast-tel.pipe';
 import { WindowService } from './admin/shared/services/window.service';
 import { AuthService } from './admin/shared/services/auth.service';
-import { AuthService1 } from './admin/shared/services/auth.service1';
+import { AuthService1 } from './admin/shared/services/auth1.service';
 import { AngularFireModule } from '@angular/fire';
 
-const INTERCEPTOR_PROVAIDER: Provider = {
+const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,
   useClass: AuthInterceptor,
@@ -39,7 +39,7 @@ const INTERCEPTOR_PROVAIDER: Provider = {
     SharedModule,
     BrowserAnimationsModule,
   ],
-  providers: [INTERCEPTOR_PROVAIDER, WindowService],
+  providers: [INTERCEPTOR_PROVIDER, WindowService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
