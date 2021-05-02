@@ -4,6 +4,7 @@ import { MainLayoutComponent } from './shared/main-layout/main-layout.component'
 import { MainPageComponent } from './main-page/main-page.component';
 import { ProductPageComponent } from './product-page/product-page.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
+import { UserLoginComponent } from './user-login/user-login.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
       { path: 'product/:id', component: ProductPageComponent },
       { path: 'cart', component: CartPageComponent },
       { path: '**', redirectTo: '/' },
+      { path: 'userlogin1', component: UserLoginComponent },
     ],
   },
   {

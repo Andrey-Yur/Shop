@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MatBadgeModule } from '@angular/material/badge';
+import { UserLoginComponent } from './user-login/user-login.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     CartPageComponent,
     ProductComponent,
     SortingPipe,
+    UserLoginComponent,
   ],
   imports: [
     BrowserModule,
