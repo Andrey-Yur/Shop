@@ -15,8 +15,8 @@ const routes: Routes = [
       { path: '', component: MainPageComponent },
       { path: 'product/:id', component: ProductPageComponent },
       { path: 'cart', component: CartPageComponent },
-      { path: '**', redirectTo: '/' },
-      { path: 'userlogin1', component: UserLoginComponent },
+      // { path: '**', redirectTo: '/' },
+      { path: 'userlogin', component: UserLoginComponent },
     ],
   },
   {
@@ -27,7 +27,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
