@@ -20,7 +20,8 @@ export class CustomInterceptorService implements HttpInterceptor{
     return next.handle(jsonReq)
       .pipe(filter(this._isHttpResponse),
       map((res) => {
-        return res.clone({body: res.body?.data});
+          console.log(req.url, res.body);
+          return res.clone({body: res.body?.data});
       }));
           // catchError(() => {
           //   return EMPTY;

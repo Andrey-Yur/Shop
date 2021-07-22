@@ -5,29 +5,32 @@
                 <p>Sign Up to continue</p>
                 <mat-form-field appearance="fill">
                     <input matInput placeholder="Username" type="text"
-                           name="username" formControlName="username">
-                </mat-form-field>
+                           formControlName="username"
+                        >
+              </mat-form-field>
                 <mat-form-field appearance="fill">
-                    <input matInput placeholder="Email" type="text"
-                           formControlName="email">
+                    <input matInput placeholder="Email" type="email"
+                           formControlName="email" >
                 </mat-form-field>
-                <div formGroupName="password">
+                <div formGroupName="password" >
                     <mat-form-field appearance="fill">
                         <input matInput placeholder="Password" type="password"
-                               formControlName="password">
+                               formControlName="password" >
                     </mat-form-field>
                     <mat-form-field appearance="fill">
                         <input matInput placeholder="Confirm Password"
                                type="password"
                                formControlName="cpassword">
-                    </mat-form-field>
+                                            </mat-form-field>
+
                 </div>
                 <button mat-raised-button color="primary"
                         (click)="signup(signupForm.value)"
-                        [disabled]="signupForm.invalid">Sign Up</button>
+                        [disabled]="signupForm.invalid ">Sign
+                    Up</button>
                 <a mat-button [routerLink]="['/login']" > Log In</a>
             </form>
         </mat-card-content>
     </mat-card>
-<!--    <pre>{{c.errors | json}}</pre>-->
+<!--<pre>{{c.errors | json}}</pre>-->
 </div>

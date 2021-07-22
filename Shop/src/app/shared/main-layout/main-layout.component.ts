@@ -11,7 +11,7 @@ export class MainLayoutComponent implements OnInit {
   cartProducts = [];
   type = 'chainsaw';
 
-  constructor(private router: Router, private productServ: ProductService) {}
+  constructor(private router: Router, public productServ: ProductService) {}
 
   ngOnInit(): void {
     this.cartProducts = this.productServ.cartProducts;

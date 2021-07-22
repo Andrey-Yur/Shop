@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
+
+
+
 
 @Component({
   selector: 'app-login',
@@ -8,9 +12,10 @@ import {FormControl, Validators} from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  userNameCtrl = new FormControl('', [Validators.required, Validators.minLength(5)]);
+  userNameCtrl = new FormControl('', [Validators.required,
+    Validators.minLength(5)] );
   public value = '';
-  constructor() { }
+  constructor(public http: HttpClient) {}
 
   ngOnInit(): void {
   }
@@ -18,4 +23,5 @@ export class LoginComponent implements OnInit {
 public login(formValue: any): void{
     console.log(formValue);
 }
+
 }

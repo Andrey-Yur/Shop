@@ -4,15 +4,18 @@
             <form #f="ngForm" (ngSubmit)="login(f.value)">
                 <p>Login to continue</p>
             <mat-form-field appearance="fill">
-                <input matInput placeholder="Username" type="email" ngModel 
-                       name="username" required minlength="5" appUserValidator
+                <input matInput placeholder="Username" type="text" ngModel
+                       name="username"
+                       required minlength="5"
                        #c="ngModel">
-                <mat-error
-                        *ngIf="c.errors?.onlyLetters">{{c.errors.onlyLetters}}</mat-error>
+                <mat-error *ngIf="c.errors?.onlyLetters">{{c.errors.onlyLetters}}
+                </mat-error>
+                <mat-error *ngIf="c.errors?.minlength && !c.errors?.onlyLetters">{{c.errors.minlength.actualLength}}
+                </mat-error>
             </mat-form-field>
                 <mat-form-field appearance="fill">
                     <input matInput placeholder="Password" type="password" ngModel
-                    name="password" required>
+                    name="password" required appNameValidator>
                 </mat-form-field>
                 <button mat-raised-button color="primary" type="submit"
                         [disabled]="f.invalid">Log

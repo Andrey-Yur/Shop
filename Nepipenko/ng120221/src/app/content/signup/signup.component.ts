@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 // import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
-// import {environment} from '../../../environments/environment';
-// import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-signup',
@@ -13,11 +10,11 @@ import {map} from 'rxjs/operators';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-
+  public value = '';
   public validators = [Validators.required];
   public signupForm = this.fb.group({
 username: ['', this.validators, this.uniqUserName.bind(this)],
-email: this.fb.control('', this.validators),
+email: ['', this.validators],
 password: this.fb.group({
   password: ['', this.validators],
   cpassword: ['', this.validators]
@@ -39,14 +36,6 @@ constructor(private fb: FormBuilder, private http: HttpClient) {
     'nonEqual': 'Passwords are not equal'
   };
   }
-public uniqUserName(): Observable<any | null> {
-  // const user = {
-  //   email: 'user@user.com',
-  //   password: 'Samara163!',
-  //   returnSecureToken: true // token 3600 sec по умолчанию
-  // };
-    return this.http.post(`/register`, {
-    'email': 'eve.holt@reqres.in', 'password': 'pistol' }).
-  pipe(map(res => {console.log(res); } ));
-}
+public uniqUserName(control: FormControl): Observable<ValidationErrors | null> {
+    return this.http.post(`/register`, {'email': control.value, 'password': 'pistol'}); }
 }

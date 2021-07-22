@@ -1,1 +1,33 @@
-<p>user-login works!</p>
+<div class="auth-content">
+  <mat-card>
+    <mat-card-content>
+      <form #f="ngForm" (ngSubmit)="login(f.value)">
+        <p>Sign Up to continue</p>
+        <mat-form-field appearance="fill">
+          <input
+            matInput
+            placeholder="Enter Work Order #"
+            type="text"
+            name="workorder"
+            ngModel
+            required
+            minlength="5"
+            maxlength="5"
+            #c="ngModel"
+          />
+        </mat-form-field>
+        <mat-error></mat-error>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="f.invalid"
+        >
+          Log In
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <!--<pre>{{c.errors | json}}</pre>-->
+</div>
